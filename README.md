@@ -77,7 +77,7 @@ infra(domain/repository、domain/modelに依存)➡︎domain/model
 5. `handler`に、httpのGET、POSTなどを受け取ってusecase の処理を呼び出す関数を記載する（ここはinterface定義しなくて良い）
 6. `di/injector.go`に依存性解決関数を記載する（ここが一番詰まるかも）
 
-##階層イメージ
+##　階層イメージ
 
 ```sh
 .
