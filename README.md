@@ -15,6 +15,7 @@ https://qiita.com/ochipin/items/cae787d75ae91247c722
 ## 使用するライブラリ
 
 - webフレームワーク：echo
+  [Go の echo ってWebサーバーでサクッと REST しちゃう](https://qiita.com/ezaki/items/62e806ae42828bb3567a)
 
 - aws系ライブラリ： [aws](https://github.com/aws)/[aws-sdk-go-v2](https://github.com/aws/aws-sdk-go-v2)
 
