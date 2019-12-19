@@ -122,3 +122,7 @@ infra(domain/repository、domain/modelに依存)➡︎domain/model
 VSCodeでは、関数のテスト雛形を自動で作ってくれる機能ある。
 
 - [VS CodeのGo言語テストコード生成ツールを使ってみたらめちゃくちゃ便利だった話とか](http://kdnakt.hatenablog.com/entry/2019/01/03/080000)
+
+## Gitのコミットメッセージについて
+できるだけこれに沿って行きたい
+- [Gitのコミットメッセージの書き方](https://qiita.com/itosho/items/9565c6ad2ffc24c09364)
