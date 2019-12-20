@@ -1,17 +1,13 @@
 package repository
 
+import (
+	"github.com/YuichiKadota/introther/domain/model"
+)
+
 // UserProfileRepo - 登録ユーザー情報操作用のリポジトリ
 type UserProfileRepo interface {
-	Get()
-	Insert()
-	Update()
-	Delete()
-}
-
-// UserImageRepo - 登録ユーザープロフィール画像操作用のリポジトリ
-type UserImageRepo interface {
-	Get()
-	Insert()
-	Update()
-	Delete()
+	Get(string) (model.User, error)
+	Insert(model.User) (model.User, error)
+	Update(model.User) (model.User, error)
+	Delete(model.User) (bool, error)
 }
