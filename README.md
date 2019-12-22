@@ -17,7 +17,7 @@ https://qiita.com/ochipin/items/cae787d75ae91247c722
 - webフレームワーク：echo
   [Go の echo ってWebサーバーでサクッと REST しちゃう](https://qiita.com/ezaki/items/62e806ae42828bb3567a)
 
-- aws系ライブラリ： [aws](https://github.com/aws)/[aws-sdk-go-v2](https://github.com/aws/aws-sdk-go-v2)
+- aws系ライブラリ： [aws/aws-sdk-go](https://github.com/aws/aws-sdk-go)
 
 
 ## パッケージ構成について
@@ -27,7 +27,7 @@ https://qiita.com/ochipin/items/cae787d75ae91247c722
 [Go の package 構成と開発のベタープラクティス](https://engineer.recruit-lifestyle.co.jp/techblog/2018-03-16-go-ddd/)  
 [Go のパッケージ構成の失敗遍歴と現状確認](https://medium.com/@timakin/go%E3%81%AE%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E6%A7%8B%E6%88%90%E3%81%AE%E5%A4%B1%E6%95%97%E9%81%8D%E6%AD%B4%E3%81%A8%E7%8F%BE%E7%8A%B6%E7%A2%BA%E8%AA%8D-fc6a4369337)  
 
-- interface
+- presenter
   - APIのハンドラなどを定義
 - domain
   - model
@@ -58,7 +58,7 @@ interfaceの目的は、mockを使ったテストをしやすくするため
 ```
 main.go(webフレームワークechoが常駐)
 ↓
-interface/router.go(handler直接関数呼び出し)
+presenter/router.go(handler直接関数呼び出し)
 ↓
 interface/handler(usecase直接関数呼び出し)
 ↓
@@ -71,7 +71,7 @@ infra(domain/repository、domain/modelに依存)➡︎domain/model
 
 ### 実装手順（参考）
 
-1. `domain/model`で構造体を定義する。`interface/router.go`にURLルーティングを定義する
+1. `domain/model`で構造体を定義する。`presenter/router.go`にURLルーティングを定義する
 2. `domain/repository`でメソッドをinterfaceで定義する（Save() 、Delete()、Update()、Find()など ）
 3. `infra`に②の実装を記載する。この時、関数ではなく②の定義を満たすメソッドとして記載する。
 4. `usecase`にビジネスロジックを記載する。（ここはinterface定義しなくて良い）
@@ -93,7 +93,7 @@ infra(domain/repository、domain/modelに依存)➡︎domain/model
 ├── infra
 │   ├── s3.go
 │   └── dynamodb.go	etc...
-├── interface
+├── presenter
 │   ├── handler
 │   │      ├── user_handler.go
 │   │      └── post_handler.go	etc...
