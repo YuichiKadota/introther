@@ -12,7 +12,7 @@ type UserHandler struct {
 	userUsecase usecase.UeserUsecsse
 }
 
-func NewTodoHandler(userUsecase usecase.UeserUsecsse) UserHandler {
+func NewUsersHandler(userUsecase usecase.UeserUsecsse) UserHandler {
 	userHandler := UserHandler{userUsecase: userUsecase}
 	return userHandler
 }
