@@ -53,21 +53,21 @@ func TestUeserUsecsse_Register(t *testing.T) {
 		wantErr bool
 	}{
 		// TODO: Add test cases.
-		{name: "regal_test",
+		{name: "normal_test",
 			fields: newFields(),
 			args: args{
 				model.User{
-					UserID:     "regal_test_userID",
-					NickName:   "regal_test_nick_nsme",
-					Profile:    "regal_test_profile",
+					UserID:     "normal_test_userID",
+					NickName:   "normal_test_nick_nsme",
+					Profile:    "normal_test_profile",
 					InsertDate: time.Date(2019, 12, 31, 23, 59, 59, 0, time.Local),
 					UpdateDate: time.Date(2019, 12, 31, 23, 59, 59, 0, time.Local),
 				},
 			},
 			want: model.User{
-				UserID:     "regal_test_userID",
-				NickName:   "regal_test_nick_nsme",
-				Profile:    "regal_test_profile",
+				UserID:     "normal_test_userID",
+				NickName:   "normal_test_nick_nsme",
+				Profile:    "normal_test_profile",
 				InsertDate: time.Date(2019, 12, 31, 23, 59, 59, 0, time.Local),
 				UpdateDate: time.Date(2019, 12, 31, 23, 59, 59, 0, time.Local),
 			},
