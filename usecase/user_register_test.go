@@ -80,7 +80,7 @@ func TestUeserUsecsse_Register(t *testing.T) {
 				userRepo: tt.fields.userRepo,
 			}
 
-			got, err := u.Register(tt.args.in0)
+			got, err := u.Register(&tt.args.in0)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("UeserUsecsse.Register() error = %v, wantErr %v", err, tt.wantErr)
 				return

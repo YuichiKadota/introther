@@ -18,9 +18,9 @@ func NewUserUsecase(userRepo repository.UserProfileRepo) UeserUsecsse {
 	return u
 }
 
-func (u *UeserUsecsse) Register(user model.User) (model.User, error) {
+func (u *UeserUsecsse) Register(user *model.User) (model.User, error) {
 
-	reuser, err := u.userRepo.Insert(&user)
+	reuser, err := u.userRepo.Insert(user)
 
 	if err != nil {
 		err = fmt.Errorf("ユーザー登録に失敗しました。 %w", err)

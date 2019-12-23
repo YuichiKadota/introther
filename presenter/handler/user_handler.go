@@ -30,7 +30,7 @@ func (h *UserHandler) Register() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var user model.User
 		c.Bind(&user)
-		reuser, err := h.userUsecase.Register(user)
+		reuser, err := h.userUsecase.Register(&user)
 
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, err)
