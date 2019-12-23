@@ -48,6 +48,7 @@ func (r *DynamoDBRepoImpl) Insert(user *model.User) (*model.User, error) {
 		},
 
 		ExpressionAttributeNames: map[string]*string{
+			"#password":    aws.String("password"),
 			"#nick_name":   aws.String("nick_name"),
 			"#profile":     aws.String("profile"), // 項目名をプレースホルダに入れる
 			"#image_url":   aws.String("image_url"),
@@ -58,7 +59,9 @@ func (r *DynamoDBRepoImpl) Insert(user *model.User) (*model.User, error) {
 			":nick_name_value": {
 				S: aws.String(user.NickName), // 値をプレースホルダに入れる
 			},
-
+			":password_value": {
+				S: aws.String(user.Password),
+			},
 			":profile_value": {
 				S: aws.String(user.Profile), // 値をプレースホルダに入れる
 			},
@@ -74,7 +77,8 @@ func (r *DynamoDBRepoImpl) Insert(user *model.User) (*model.User, error) {
 		},
 
 		UpdateExpression: aws.String(
-			"set #nick_name = :nick_name_value, " +
+			"set #password = :password_value, " +
+				"#nick_name = :nick_name_value, " +
 				"#profile = :profile_value, " +
 				"#image_url = :image_url_value, " +
 				"#insert_date = :insert_date_value, " +
