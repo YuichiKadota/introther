@@ -78,9 +78,9 @@ func (r *DynamoDBRepoImpl) Insert(user model.User) (model.User, error) {
 		), //プレースホルダを利用して更新の式を書く
 
 		//あとは返してくる情報の種類を指定する
-		ReturnConsumedCapacity:      aws.String("NONE"),
-		ReturnItemCollectionMetrics: aws.String("NONE"),
-		ReturnValues:                aws.String("NONE"),
+		ReturnConsumedCapacity:      aws.String("NONE"), //(デフォルト値) 何も返さない
+		ReturnItemCollectionMetrics: aws.String("NONE"), //(デフォルト値) 何も返さない
+		ReturnValues:                aws.String("NONE"), //(デフォルト値) 何も返さない
 	}
 
 	_, err = r.dynamoDB.UpdateItem(param) //実行
