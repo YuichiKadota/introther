@@ -1,24 +1,21 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
 
-func main(){
-	
-	c := add(1,3)
-	d := multiprication(2,4)
+	"github.com/YuichiKadota/introther/di"
+	"github.com/YuichiKadota/introther/presenter"
+	"github.com/labstack/echo"
+	"github.com/labstack/gommon/log"
+)
 
-	fmt.Println(c)
-	fmt.Println(d)
-
-}
-
-
-func add(a,b int) int{
-
-	return a + b
-}
-
-func multiprication(a,b int) int{
-
-	return a * b
+func main() {
+	fmt.Println("sever start")
+	userHandler, err := di.InjectUserHandler()
+	if err != nil {
+		log.Fatalf("ユーザー処理関連の依存解決に失敗しました。 %v", err)
+	}
+	e := echo.New()
+	presenter.InitRouting(e, userHandler)
+	e.Logger.Fatal(e.Start(":8080"))
 }

@@ -10,10 +10,12 @@ import (
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 )
 
+// DynamoDBRepoImpl - DynamoDB処理の実装メソッドをもつ構造体
 type DynamoDBRepoImpl struct {
 	dynamoDB *dynamodb.DynamoDB
 }
 
+// NewDynamoDBRepoImpl - DynamoDB処理の実装を返す
 func NewDynamoDBRepoImpl() (repository.UserProfileRepo, error) {
 
 	ddb := dynamodb.New(session.New(), aws.NewConfig().WithRegion(os.Getenv("REGION")))
@@ -25,12 +27,14 @@ func NewDynamoDBRepoImpl() (repository.UserProfileRepo, error) {
 	return dynamoDBRepoImpl, nil
 }
 
-func (r *DynamoDBRepoImpl) Get(userID string) (model.User, error) {
+// Get - 仮定義
+func (r *DynamoDBRepoImpl) Get(userID string) (*model.User, error) {
 	var user model.User
-	return user, nil
+	return &user, nil
 }
 
-func (r *DynamoDBRepoImpl) Insert(user model.User) (model.User, error) {
+// Insert - ユーザー登録を行う実装
+func (r *DynamoDBRepoImpl) Insert(user *model.User) (*model.User, error) {
 
 	var err error
 
@@ -92,10 +96,12 @@ func (r *DynamoDBRepoImpl) Insert(user model.User) (model.User, error) {
 	return user, nil
 }
 
-func (r *DynamoDBRepoImpl) Update(user model.User) (model.User, error) {
+// Update - 仮定義
+func (r *DynamoDBRepoImpl) Update(user *model.User) (*model.User, error) {
 	return user, nil
 }
 
-func (r *DynamoDBRepoImpl) Delete(user model.User) (bool, error) {
+// Delete - 仮定義
+func (r *DynamoDBRepoImpl) Delete(user *model.User) (bool, error) {
 	return true, nil
 }
