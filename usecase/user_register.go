@@ -20,6 +20,7 @@ func NewUserUsecase(userRepo repository.UserProfileRepo) UeserUsecsse {
 
 func (u *UeserUsecsse) Register(user *model.User) (model.User, error) {
 
+	// TODO パスワード暗号化処理を追加する
 	reuser, err := u.userRepo.Insert(user)
 
 	if err != nil {
