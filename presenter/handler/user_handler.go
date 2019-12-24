@@ -3,6 +3,8 @@ package handler
 import (
 	"net/http"
 
+	"fmt"
+
 	"github.com/YuichiKadota/introther/domain/model"
 	"github.com/YuichiKadota/introther/usecase"
 	"github.com/labstack/echo"
@@ -28,9 +30,20 @@ func (h *UserHandler) View() echo.HandlerFunc {
 func (h *UserHandler) Register() echo.HandlerFunc {
 
 	return func(c echo.Context) error {
-		var user model.User
-		c.Bind(&user)
-		reuser, err := h.userUsecase.Register(&user)
+
+		user := new(model.User)
+
+		if err := c.Bind(user); err != nil {
+			return c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
+		}
+
+		fmt.Println(*user)
+
+		if err := c.Validate(user); err != nil {
+			return c.String(http.StatusBadRequest, "Validate is failed: "+err.Error())
+		}
+
+		reuser, err := h.userUsecase.Register(user)
 
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, err)

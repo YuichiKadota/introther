@@ -1,8 +1,6 @@
 package infra
 
 import (
-	"os"
-
 	"github.com/YuichiKadota/introther/domain/model"
 	repository "github.com/YuichiKadota/introther/domain/repository/user"
 	"github.com/aws/aws-sdk-go/aws"
@@ -18,7 +16,7 @@ type DynamoDBRepoImpl struct {
 // NewDynamoDBRepoImpl - DynamoDB処理の実装を返す
 func NewDynamoDBRepoImpl() (repository.UserProfileRepo, error) {
 
-	ddb := dynamodb.New(session.New(), aws.NewConfig().WithRegion(os.Getenv("REGION")))
+	ddb := dynamodb.New(session.New(), aws.NewConfig().WithRegion("ap-northeast-1"))
 
 	dynamoDBRepoImpl := &DynamoDBRepoImpl{
 		dynamoDB: ddb,
@@ -39,7 +37,7 @@ func (r *DynamoDBRepoImpl) Insert(user *model.User) (*model.User, error) {
 	var err error
 
 	param := &dynamodb.UpdateItemInput{
-		TableName: aws.String(os.Getenv("DYNAMODB_NAME")), // テーブル名を指定
+		TableName: aws.String("user"), // テーブル名を指定
 
 		Key: map[string]*dynamodb.AttributeValue{
 			"user_id": {
