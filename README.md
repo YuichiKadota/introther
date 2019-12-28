@@ -22,10 +22,10 @@ https://qiita.com/ochipin/items/cae787d75ae91247c722
 
 ## パッケージ構成について
 
-[今すぐ「レイヤードアーキテクチャ+DDD」を理解しよう。（golang）](https://qiita.com/tono-maron/items/345c433b86f74d314c8d) ←これがわかりやすいか
-[Go のサーバーサイド実装におけるレイヤ設計と実装](https://www.slideshare.net/pospome/go-80591000)  
-[Go の package 構成と開発のベタープラクティス](https://engineer.recruit-lifestyle.co.jp/techblog/2018-03-16-go-ddd/)  
-[Go のパッケージ構成の失敗遍歴と現状確認](https://medium.com/@timakin/go%E3%81%AE%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E6%A7%8B%E6%88%90%E3%81%AE%E5%A4%B1%E6%95%97%E9%81%8D%E6%AD%B4%E3%81%A8%E7%8F%BE%E7%8A%B6%E7%A2%BA%E8%AA%8D-fc6a4369337)  
+- [今すぐ「レイヤードアーキテクチャ+DDD」を理解しよう。（golang）](https://qiita.com/tono-maron/items/345c433b86f74d314c8d) ←これがわかりやすいか
+- [Go のサーバーサイド実装におけるレイヤ設計と実装](https://www.slideshare.net/pospome/go-80591000)  
+- [Go の package 構成と開発のベタープラクティス](https://engineer.recruit-lifestyle.co.jp/techblog/2018-03-16-go-ddd/)  
+- [Go のパッケージ構成の失敗遍歴と現状確認](https://medium.com/@timakin/go%E3%81%AE%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E6%A7%8B%E6%88%90%E3%81%AE%E5%A4%B1%E6%95%97%E9%81%8D%E6%AD%B4%E3%81%A8%E7%8F%BE%E7%8A%B6%E7%A2%BA%E8%AA%8D-fc6a4369337)  
 
 - presenter
   - APIのハンドラなどを定義
@@ -60,7 +60,7 @@ main.go(webフレームワークechoが常駐)
 ↓
 presenter/router.go(handler直接関数呼び出し)
 ↓
-interface/handler(usecase直接関数呼び出し)
+presenter/handler(usecase直接関数呼び出し)
 ↓
 usecase(domain/repositoryを経由して、infra層のメソッドを呼び出し)
 ↓
@@ -78,7 +78,7 @@ infra(domain/repository、domain/modelに依存)➡︎domain/model
 5. `handler`に、httpのGET、POSTなどを受け取ってusecase の処理を呼び出す関数を記載する（ここはinterface定義しなくて良い）
 6. `di/injector.go`に依存性解決関数を記載する（ここが一番詰まるかも）
 
-##　階層イメージ
+## 階層イメージ
 
 ```sh
 .
