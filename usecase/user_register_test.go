@@ -70,6 +70,7 @@ func TestUeserUsecsse_Register(t *testing.T) {
 				Profile:    "regal-test-profile",
 				InsertDate: time.Now(),
 				UpdateDate: time.Now(),
+
 			},
 		},
 	}
