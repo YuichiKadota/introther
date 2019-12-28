@@ -52,24 +52,25 @@ func TestUeserUsecsse_Register(t *testing.T) {
 		want    model.User
 		wantErr bool
 	}{
-		// TODO: Add test cases.
-		{name: "normal_test",
+		// TODO: Add iregal test cases.
+		{name: "regal_test",
 			fields: newFields(),
 			args: args{
 				model.User{
-					UserID:     "normal_test_userID",
-					NickName:   "normal_test_nick_nsme",
-					Profile:    "normal_test_profile",
-					InsertDate: time.Date(2019, 12, 31, 23, 59, 59, 0, time.Local),
-					UpdateDate: time.Date(2019, 12, 31, 23, 59, 59, 0, time.Local),
+					UserID:   "regal-test-userID",
+					Password: "regal-test-password",
+					NickName: "regal-test-nick_nsme",
+					Profile:  "regal-test-profile",
 				},
 			},
 			want: model.User{
-				UserID:     "normal_test_userID",
-				NickName:   "normal_test_nick_nsme",
-				Profile:    "normal_test_profile",
-				InsertDate: time.Date(2019, 12, 31, 23, 59, 59, 0, time.Local),
-				UpdateDate: time.Date(2019, 12, 31, 23, 59, 59, 0, time.Local),
+				UserID:     "regal-test-userID",
+				NickName:   "regal-test-nick_nsme",
+				Password:   "regal-test-password",
+				Profile:    "regal-test-profile",
+				InsertDate: time.Now(),
+				UpdateDate: time.Now(),
+
 			},
 		},
 	}
@@ -85,8 +86,26 @@ func TestUeserUsecsse_Register(t *testing.T) {
 				t.Errorf("UeserUsecsse.Register() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("UeserUsecsse.Register() = %v, want %v", got, tt.want)
+			if !reflect.DeepEqual(got.UserID, tt.want.UserID) {
+				t.Errorf("UeserUsecsse.Register() = %v, want %v", got.UserID, tt.want.UserID)
+			}
+			if !reflect.DeepEqual(got.Password, tt.want.Password) {
+				t.Errorf("UeserUsecsse.Register() = %v, want %v", got.Password, tt.want.Password)
+			}
+			if !reflect.DeepEqual(got.NickName, tt.want.NickName) {
+				t.Errorf("UeserUsecsse.Register() = %v, want %v", got.NickName, tt.want.NickName)
+			}
+			if !reflect.DeepEqual(got.Profile, tt.want.Profile) {
+				t.Errorf("UeserUsecsse.Register() = %v, want %v", got.Profile, tt.want.Profile)
+			}
+			if !reflect.DeepEqual(got.ImageURL, tt.want.ImageURL) {
+				t.Errorf("UeserUsecsse.Register() = %v, want %v", got.ImageURL, tt.want.ImageURL)
+			}
+			if got.InsertDate.IsZero() == true {
+				t.Errorf("UeserUsecsse.Register() = %v is initial value", got.InsertDate)
+			}
+			if got.UpdateDate.IsZero() == true {
+				t.Errorf("UeserUsecsse.Register() = %v is initial value", got.UpdateDate)
 			}
 		})
 	}

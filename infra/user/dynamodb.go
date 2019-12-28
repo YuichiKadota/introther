@@ -1,7 +1,7 @@
 package infra
 
 import (
-	"os"
+	"time"
 
 	"github.com/YuichiKadota/introther/domain/model"
 	repository "github.com/YuichiKadota/introther/domain/repository/user"
@@ -18,7 +18,7 @@ type DynamoDBRepoImpl struct {
 // NewDynamoDBRepoImpl - DynamoDB処理の実装を返す
 func NewDynamoDBRepoImpl() (repository.UserProfileRepo, error) {
 
-	ddb := dynamodb.New(session.New(), aws.NewConfig().WithRegion(os.Getenv("REGION")))
+	ddb := dynamodb.New(session.New(), aws.NewConfig().WithRegion("ap-northeast-1"))
 
 	dynamoDBRepoImpl := &DynamoDBRepoImpl{
 		dynamoDB: ddb,
@@ -30,6 +30,55 @@ func NewDynamoDBRepoImpl() (repository.UserProfileRepo, error) {
 // Get - 仮定義
 func (r *DynamoDBRepoImpl) Get(userID string) (*model.User, error) {
 	var user model.User
+	params := &dynamodb.GetItemInput{
+		TableName: aws.String("user"), // テーブル名
+
+		Key: map[string]*dynamodb.AttributeValue{
+			"user_id": { // キー名
+				S: aws.String(userID), // 持ってくるキーの値
+			},
+		},
+		AttributesToGet: []*string{
+			aws.String("password"),
+			aws.String("nick_name"),
+			aws.String("profile"),
+			aws.String("image_url"),
+			aws.String("insert_date"),
+			aws.String("update_date"), // 欲しいデータの名前
+		},
+		ConsistentRead: aws.Bool(true), // 常に最新を取得するかどうか
+
+		//返ってくるデータの種類
+		ReturnConsumedCapacity: aws.String("NONE"),
+	}
+
+	resp, err := r.dynamoDB.GetItem(params)
+
+	if err != nil {
+		return &user, err
+	}
+
+	insertDate, err := time.Parse("2006/01/02 15:04:05", *resp.Item["insert_date"].S)
+	if err != nil {
+		return &user, err
+	}
+
+	updateDate, err := time.Parse("2006/01/02 15:04:05", *resp.Item["update_date"].S)
+	if err != nil {
+		return &user, err
+	}
+
+	//resp.Item[項目名].型 でデータへのポインタを取得
+	user = model.User{
+		UserID:     userID,
+		Password:   *resp.Item["password"].S,
+		NickName:   *resp.Item["nick_name"].S,
+		Profile:    *resp.Item["profile"].S,
+		ImageURL:   *resp.Item["image_url"].S,
+		InsertDate: insertDate,
+		UpdateDate: updateDate,
+	}
+
 	return &user, nil
 }
 
@@ -39,7 +88,7 @@ func (r *DynamoDBRepoImpl) Insert(user *model.User) (*model.User, error) {
 	var err error
 
 	param := &dynamodb.UpdateItemInput{
-		TableName: aws.String(os.Getenv("DYNAMODB_NAME")), // テーブル名を指定
+		TableName: aws.String("user"), // テーブル名を指定
 
 		Key: map[string]*dynamodb.AttributeValue{
 			"user_id": {
