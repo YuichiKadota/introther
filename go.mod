@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/aws/aws-sdk-go v1.26.7
+	github.com/go-ozzo/ozzo-validation/v3 v3.8.1
 	github.com/go-playground/validator/v10 v10.0.1
 	github.com/labstack/echo v3.3.10+incompatible
 	github.com/labstack/gommon v0.3.0

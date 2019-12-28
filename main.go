@@ -16,7 +16,6 @@ func main() {
 		log.Fatalf("ユーザー処理関連の依存解決に失敗しました。 %v", err)
 	}
 	e := echo.New()
-	e.Validator = presenter.NewValidator()
 	presenter.InitRouting(e, userHandler)
 	e.Logger.Fatal(e.Start(":8080"))
 }

@@ -39,10 +39,6 @@ func (h *UserHandler) Register() echo.HandlerFunc {
 
 		fmt.Println(*user)
 
-		if err := c.Validate(user); err != nil {
-			return c.String(http.StatusBadRequest, "Validate is failed: "+err.Error())
-		}
-
 		reuser, err := h.userUsecase.Register(user)
 
 		if err != nil {
