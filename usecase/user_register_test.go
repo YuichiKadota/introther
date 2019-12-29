@@ -26,6 +26,7 @@ func newFields() fields {
 
 func (r *testRepo) Get(userID string) (*model.User, error) {
 	var user model.User
+	user.UserID = "duplicate_userID"
 	return &user, nil
 }
 
@@ -97,6 +98,18 @@ func TestUeserUsecsse_Register(t *testing.T) {
 				},
 			},
 			want: errors.New("入力項目が不適切です。 NickName: must be in a valid format; Password: must be in a valid format; Profile: the length must be no more than 255; UserID: must be in a valid format."),
+		},
+		{name: "iregal_test_duplicate_userID",
+			fields: newFields(),
+			args: args{
+				model.User{
+					UserID:   "duplicate_userID",
+					Password: "duplicate_password",
+					NickName: "duplicate_nick_name",
+					Profile:  "duplicate_profile",
+				},
+			},
+			want: errors.New("そのユーザーIDは既に登録されています。"),
 		},
 	}
 
