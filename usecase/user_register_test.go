@@ -5,6 +5,10 @@ import (
 	"testing"
 	"time"
 
+	"golang.org/x/crypto/bcrypt"
+
+	"errors"
+
 	"github.com/YuichiKadota/introther/domain/model"
 	repository "github.com/YuichiKadota/introther/domain/repository/user"
 )
@@ -45,7 +49,7 @@ func TestUeserUsecsse_Register(t *testing.T) {
 	type args struct {
 		in0 model.User
 	}
-	tests := []struct {
+	regalTests := []struct {
 		name    string
 		fields  fields
 		args    args
@@ -60,21 +64,43 @@ func TestUeserUsecsse_Register(t *testing.T) {
 					UserID:   "regal-test-userID",
 					Password: "regal-test-password",
 					NickName: "regal-test-nick_nsme",
-					Profile:  "regal-test-profile",
+					Profile:  "テストプロフィール",
 				},
 			},
 			want: model.User{
 				UserID:     "regal-test-userID",
 				NickName:   "regal-test-nick_nsme",
 				Password:   "regal-test-password",
-				Profile:    "regal-test-profile",
+				Profile:    "テストプロフィール",
 				InsertDate: time.Now(),
 				UpdateDate: time.Now(),
-
 			},
 		},
 	}
-	for _, tt := range tests {
+
+	iregalTests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    error
+		wantErr bool
+	}{
+		// TODO: Add iregal test cases.
+		{name: "iregal_test_kana",
+			fields: newFields(),
+			args: args{
+				model.User{
+					UserID:   "テストユーザー（カナ）",
+					Password: "テストパスワード（カナ）",
+					NickName: "テストニックネーム（カナ）",
+					Profile:  "亜gkdjfdじゃdbfbbbbcbbbdbbjfdvgjgdgggfhheyuuwjjjsnnncnbfbjjjjwmmdnhjjwiiwiwkoallk,sjjmmxmmmejjeiiikw,,,,,s,xkmmmekjjhenqksoeoke,m；亜djfkjdfぁsdjふぁls；djfsfvwfvweviwevcgewfcgweycgecgewycgweych；dFjlskdfjs；dFjlksdFjsl亜dvhんsjvbんjdhgfんrjfmbんvjmjrにdjkfhmんvjkjdんゔぃkhjんりfdkvhnりkdhvnF邪dhfんvjhrんづjhvんうrjdmfhんvjmdfhんvjmへrんfdjkhvんうrjfdmhvんrjdfhvん",
+				},
+			},
+			want: errors.New("入力項目が不適切です。 NickName: must be in a valid format; Password: must be in a valid format; Profile: the length must be no more than 255; UserID: must be in a valid format."),
+		},
+	}
+
+	for _, tt := range regalTests {
 		t.Run(tt.name, func(t *testing.T) {
 
 			u := &UeserUsecsse{
@@ -89,7 +115,9 @@ func TestUeserUsecsse_Register(t *testing.T) {
 			if !reflect.DeepEqual(got.UserID, tt.want.UserID) {
 				t.Errorf("UeserUsecsse.Register() = %v, want %v", got.UserID, tt.want.UserID)
 			}
-			if !reflect.DeepEqual(got.Password, tt.want.Password) {
+
+			err = bcrypt.CompareHashAndPassword([]byte(got.Password), []byte(tt.want.Password))
+			if err != nil {
 				t.Errorf("UeserUsecsse.Register() = %v, want %v", got.Password, tt.want.Password)
 			}
 			if !reflect.DeepEqual(got.NickName, tt.want.NickName) {
@@ -106,6 +134,20 @@ func TestUeserUsecsse_Register(t *testing.T) {
 			}
 			if got.UpdateDate.IsZero() == true {
 				t.Errorf("UeserUsecsse.Register() = %v is initial value", got.UpdateDate)
+			}
+		})
+	}
+
+	for _, tt := range iregalTests {
+		t.Run(tt.name, func(t *testing.T) {
+			u := &UeserUsecsse{
+				userRepo: tt.fields.userRepo,
+			}
+
+			_, err := u.Register(&tt.args.in0)
+
+			if err.Error() != tt.want.Error() {
+				t.Errorf("UeserUsecsse.Register() = %v, want %v", err, tt.want)
 			}
 		})
 	}

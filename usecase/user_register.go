@@ -3,6 +3,8 @@ package usecase
 import (
 	"fmt"
 
+	"golang.org/x/crypto/bcrypt"
+
 	"github.com/YuichiKadota/introther/domain/model"
 	repository "github.com/YuichiKadota/introther/domain/repository/user"
 )
@@ -39,7 +41,14 @@ func (u *UeserUsecsse) Register(user *model.User) (model.User, error) {
 	if err != nil {
 		return *user, err
 	}
+	// パスワードのハッシュ化
+	pwHash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	if err != nil {
+		err = fmt.Errorf("パスワードの暗号化に失敗しました。 %w", err)
+		return *user, err
+	}
 
+	user.Password = string(pwHash)
 	reuser, err := u.userRepo.Insert(user)
 
 	if err != nil {
