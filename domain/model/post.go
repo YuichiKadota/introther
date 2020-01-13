@@ -56,6 +56,6 @@ func (p *Post) SetInsertDate() {
 	p.InsertDate = time.Now()
 }
 
-func (p *Post) SetUpdatedateDate() {
+func (p *Post) SetUpdateDate() {
 	p.UpdateDate = time.Now()
 }
