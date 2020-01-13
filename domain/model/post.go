@@ -6,6 +6,7 @@ import (
 
 	validation "github.com/go-ozzo/ozzo-validation/v3"
 	"github.com/go-ozzo/ozzo-validation/v3/is"
+	"github.com/google/uuid"
 )
 
 // Post - 投稿モデル
@@ -38,6 +39,17 @@ func (p *Post) DuplicatePostCheck(existPost Post) error {
 		return fmt.Errorf("すでに紹介済みです。")
 	}
 	return nil
+}
+
+func (p *Post) SetPostId() {
+	//UUIDの発行
+	u, err := uuid.NewRandom()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	//UUIDをpostIDに代入
+	p.PostID = u.String()
 }
 
 func (p *Post) SetInsertDate() {
