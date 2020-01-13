@@ -14,9 +14,10 @@ type Post struct {
 	PostUserID   string
 	PostedUserID string
 	Text         string
-	ImageURL     []string
-	InsertDate   time.Time
-	UpdateDate   time.Time
+	//TODO 複数画像を伴う投稿
+	ImageURL   string
+	InsertDate time.Time
+	UpdateDate time.Time
 }
 
 func (p *Post) Validate() error {
